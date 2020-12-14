@@ -1,5 +1,5 @@
 <template>
-  <div class=""></div>
+  <div class="find">首页</div>
 </template>
 
 <script>
