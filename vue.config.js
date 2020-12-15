@@ -9,12 +9,12 @@ module.exports = {
   productionSourceMap: false, // 不需要生产环境的 source map（减小dist文件大小，加速构建）
   devServer: {
     open: true, // npm run serve后自动打开页面
-    host: "0.0.0.0", // 匹配本机IP地址(默认是0.0.0.0)
-    port: 8989, // 开发服务器运行端口号
+    host: "localhost", // 匹配本机IP地址(默认是0.0.0.0)
+    port: 8080, // 开发服务器运行端口号
     proxy: {
       "/api": {
         // target: `http://127.0.0.1:8888`,  // 跨域代理  开发环境
-        target: `http://127.0.0.1:8888`, // 生产环境
+        target: `http://127.0.0.1:3000`, // 生产环境
         // target: `http://127.0.0.1:8888/test/`,  // 开发环境
         changeOrigin: true,
         pathRewrite: {
