@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    ch分支12213和交换机交换机回大幅度反对法的家
+   
     <router-view></router-view>
     <Footer></Footer>
   </div>
