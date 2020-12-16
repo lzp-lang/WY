@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    ch分支12213
     <router-view></router-view>
     <Footer></Footer>
   </div>
