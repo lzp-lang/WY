@@ -9,13 +9,13 @@
     </ul> -->
 
     <van-tabbar v-model="active" active-color="#ee0a24" inactive-color="#000">
-      <van-tabbar-item icon="home-o" to="/find" tag="li">发现</van-tabbar-item>
-      <van-tabbar-item icon="search" to="/boke" tag="li">播客</van-tabbar-item>
-      <van-tabbar-item icon="friends-o" to="/mine" tag="li"
+      <van-tabbar-item icon="service-o" to="/find" tag="li">发现</van-tabbar-item>
+      <van-tabbar-item icon="music-o" to="/boke" tag="li">播客</van-tabbar-item>
+      <van-tabbar-item icon="smile-o" to="/mine" tag="li"
         >我的</van-tabbar-item
       >
-      <van-tabbar-item icon="setting-o" to="/kge" tag="li">k歌</van-tabbar-item>
-      <van-tabbar-item icon="setting-o" to="/yuncun" tag="li"
+      <van-tabbar-item icon="play-circle-o" to="/kge" tag="li">k歌</van-tabbar-item>
+      <van-tabbar-item icon="shop-collect-o" to="/yuncun" tag="li"
         >云村</van-tabbar-item
       >
     </van-tabbar>
