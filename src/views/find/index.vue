@@ -1,5 +1,26 @@
 <template>
   <div class="content">
+
+
+    <van-cell is-link @click="showPopup">
+      <van-icon name="wap-nav" />
+     
+    </van-cell>
+    <div class="sousuo">
+<form action="/">
+  <van-search
+  @click="search"
+    v-model="value"
+    show-action
+    placeholder="请输入搜索关键词"
+    @search="onSearch"
+    @cancel="onCancel"
+  />
+</form>
+</div>
+    <van-popup v-model="show" position="left" :style="{ height: '100%' }"
+      >内容</van-popup
+    >
     <div class="banner">
       <van-swipe class="my-swipe" :autoplay="3000" indicator-color="green">
         <van-swipe-item v-for="item in bannerImgs" :key="item.id"
@@ -7,45 +28,42 @@
         /></van-swipe-item>
       </van-swipe>
     </div>
-<van-tabs>
-    <van-tab v-for="(item,index) in 8" :title="'文字 ' + index" :key="index">
-    </van-tab>
-</van-tabs>
-
-  <div class="ul">
+  
+<van-grid :gutter="10">
+  <van-grid-item v-for="value in 4" :key="value" icon="photo-o" text="文字" />
+</van-grid>
+    <div class="ul">
       <h3 class="title">推荐歌单</h3>
-    <ul>
-
+      <ul>
         <li v-for="item in list" :key="item._id">
-            <!-- {{Math.floor(item.playCount / 10000) }}万
-            <div class="text">
-                <p class="name">{{item.name}}</p>
-              </div> -->
-              <div class="icon" @click="selectList(item)">
-                <div class="gradients"></div>
-              <img :src="item.picUrl" >
-              </div>
-              <p class="play-count">
-                <i class="fa fa-headphones"></i>
-                {{Math.floor(item.playCount / 10000) }}万
-              </p>
-              <div class="text">
-                <p class="name">{{item.name}}</p>
-              </div>
+          <div class="icon" @click="selectList(item)">
+            <div class="gradients"></div>
+            <img :src="item.picUrl" />
+          </div>
+          <p class="play-count">
+            <i class="fa fa-headphones"></i>
+            {{ Math.floor(item.playCount / 10000) }}万
+          </p>
+          <div class="text">
+            <p class="name">{{ item.name }}</p>
+          </div>
         </li>
-    </ul>
+      </ul>
+    </div>
+    <router-view></router-view>
+    <div class="seach"></div>
   </div>
-  <router-view></router-view>
-</div>
-
 </template>
 
 <script>
+import { Toast } from 'vant';
 export default {
   data() {
     return {
-      list:[],
-        bannerImgs: [
+      show: false,
+      value: "",
+      list: [],
+      bannerImgs: [
         {
           imgUrl:
             "http://p1.music.126.net/GOUS07Q9pm88X9EWbSQI6A==/109951165542504475.jpg?",
@@ -73,13 +91,34 @@ export default {
   },
   computed: {},
   watch: {},
-  methods: {},
-  created() {
-      this.$http.post(`api/dj/toplist/personalized?limit=30`).then(res=>{
-            console.log(res)
+  methods: {
+    onSearch(val) {
+      Toast(val);
+        this.$store.state.search=val
 
-            this.list=res.data.toplist
-        })
+    },
+    onCancel() {
+      Toast('取消');
+  this.$router.push('/find')
+
+    },
+search(){
+  if(this.$route.path!=='/find/search'){
+        console.log(1);
+  this.$router.push('/find/search')
+      }
+
+},
+    showPopup() {
+      this.show = true;
+    },
+  },
+  created() {
+    this.$http.post(`api/dj/toplist/personalized?limit=30`).then((res) => {
+      // console.log(res)
+
+      this.list = res.data.toplist;
+    });
   },
   mounted() {},
   beforeCreate() {},
@@ -90,13 +129,11 @@ export default {
   destroyed() {},
   activated() {},
   components: {},
-
 };
 </script>
 
-
 <style>
-  html,
+html,
 body {
   height: 100%;
 }
@@ -117,19 +154,34 @@ body {
   width: 100%;
 }
 
-
-ul{
+ul {
   display: flex;
   /* flex-wrap: wrap; */
 }
-.ul img{
+
+.ul img {
   width: 100px;
-  height:100px;
+  height: 100px;
 }
-.text{
+.text {
   font-size: 15px;
 }
-
-
-
+.content {
+  position: relative;
+}
+.sousuo {
+  position: absolute;
+  top: 0;
+  left: 50px;
+}
+.name {
+  width: 106px;
+  text-align: center;
+}
+.play-count {
+  text-align: center;
+}
+/* .van-cell {
+  overflow: hidden;
+} */
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class='zhuce'>
       <van-form>
-           <van-field
+          <van-field
     v-model="val"
     name="昵称"
     label="昵称"

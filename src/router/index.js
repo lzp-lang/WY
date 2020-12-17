@@ -27,6 +27,12 @@ const router = new VueRouter({
       path: "/find",
       // redirect: '/shouye/nowplaying',
       component: () => import("../views/find/index"),
+      children:[
+        {
+          path:'search',
+          component:()=>import('../views/find/search.vue')
+        }
+      ]
     },
     {
       path: "/boke",
