@@ -23,6 +23,8 @@
     <van-popup v-model="show" position="bottom" :style="{ height: '20%' }">
       <span>{{ songName }}</span>
       <span>{{ art }}</span>
+      <van-icon name="like" @click="shoucang" :color="color"/>
+      
     <p><audio :src="box" ref="audio" controls autoplay="autoplay"></audio></p>
     </van-popup>
   </div>
@@ -40,11 +42,17 @@ export default {
       art: "", //歌手名字
       songName: "", //歌曲名字
       art1: [],
+      color:""
     };
   },
   computed: {},
   watch: {},
   methods: {
+    shoucang(){
+      this.color="red"
+      
+
+    },
     showPopup() {
       this.show = true;
     },

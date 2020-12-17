@@ -18,7 +18,7 @@ export default {
   watch: {},
   methods: {},
   created() {
-      this.$http.post(`api/playmode/intelligence/list?id=4007792419&pid=24381616&sid=36871368`).then(res=>{
+      this.$http.get(`api/user/subcount`).then(res=>{
             console.log(res)
         }) 
   },

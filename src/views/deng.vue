@@ -1,5 +1,6 @@
 <template>
   <div class='deng'>
+    <van-uploader v-model="fileList" multiple :max-count="2" />
     <van-form>
   <van-field
   
@@ -32,6 +33,13 @@ export default {
     return {
      phone: '',
       password: '',
+      fileList: [
+        { url: 'https://img.yzcdn.cn/vant/leaf.jpg' },
+        // Uploader 根据文件后缀来判断是否为图片文件
+        // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+     
+      ],
+     
     };
   },
   computed: {},
@@ -39,8 +47,10 @@ export default {
   methods: {
       deng(){
         this.$http.get(`api/login/cellphone?phone=${this.phone}&password=${this.password}`).then(res=>{
-            console.log(res)
-            this.$router.push("../views/boke/index")
+            console.log(res.data.bindings[0].userId)
+            localStorage.setItem("userid",JSON.stringify(res.data.bindings[0].userId))
+            localStorage.setItem("img",JSON.stringify(this.fileList[0].url))
+            this.$router.push("../mine")
         }) 
       }
   },

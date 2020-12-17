@@ -6,8 +6,8 @@
       <!-- 账户 -->
       <van-cell-group id="woqu">
         <van-cell is-link>
-          <img src="../../assets/img/dengluqian.jpg" alt="" class="tu" />
-          <span>立即登录</span></van-cell
+          <img :src="img" alt="" class="tu" />
+          <span>{{val}}</span></van-cell
         >
       </van-cell-group>
 
@@ -32,16 +32,18 @@
       <van-cell title="帮助与反馈" is-link url="/vant/mobile.html" />
       <van-cell title="分享网易音乐" is-link to="index" />
       <van-cell title="关于" is-link to="index" />
-      <van-cell title="退出登录/关闭" to="index" />
+      <van-cell title="退出登录/关闭" to="index" @click="out" />
     </van-popup>
+
+
     <!-- 登录 -->
-    <van-cell-group id="woqu">
+    <van-cell-group id="woqu" @click="godeng">
       <van-cell is-link v-if="flag">
-        <img src="../../assets/img/dengluqian.jpg" alt="" class="tu" />
-        <span>立即登录</span></van-cell
+        <img :src="img" alt="" class="tu" />
+        <span>{{val}}</span></van-cell
       >
       <van-cell is-link v-if="!flag">
-        <img src="../../assets/img/dengluqian.jpg" alt="" class="tu" />
+        <img :src="img" alt="" class="tu" />
         <span>昵称</span></van-cell
       >
     </van-cell-group>
@@ -62,14 +64,24 @@
     <!-- 我喜欢的音乐 -->
     <van-cell-group>
       <van-cell is-link>
-        <img src="../../assets/img/dengluqian.jpg" alt="" class="tu" />
+        <img :src="img" alt="" class="tu" />
         <span @click="moreshow">我喜欢的音乐</span>
       </van-cell>
     </van-cell-group>
     <!-- 歌单 -->
-    <van-tabs v-model="active">
-      <van-tab title="创建歌单">
-        <p>创建歌单<span>4</span>个</p>
+    <van-tabs v-model="active" @click="addgedan">
+      <van-tab title="创建歌单" >
+        <span>创建歌单</span>
+        <van-icon name="add-o" />
+        <ul>
+          <li v-for="item in list" :key="item.id" @click="getSongs(item.id)">{{item.name}}</li>
+        </ul>
+        
+        <van-popup v-model="showw" position="bottom" :style="{ height: '30%' }" >
+            <p>新建歌单</p>
+         <input type="text" v-model="oinp" />
+         <button @click="queding">确定</button>
+        </van-popup>
       </van-tab>
       <van-tab title="收藏歌单">
         <p>收藏歌单<span>4</span>个</p>
@@ -85,13 +97,70 @@
 export default {
   data() {
     return {
-      flag: false,
+      oinp:"",
+      flag: true,
       show: false,
+      active:"",
+      showw: false,
+      val:"请登录",
+      img:"",
+      uid:0,
+      list:""
+
     };
   },
   computed: {},
   watch: {},
   methods: {
+    
+    getSongs(id){
+     
+      this.$http.get(`api/playlist/highquality/tags`).then(res=>{
+           console.log(res)
+          localStorage.setItem("jump",JSON.stringify(id))
+          this.$router.push(`../jump/${id}`)
+        })
+   
+ 
+    
+    },
+    queding(){
+this.$http.get(`/api/playlist/create?name=${this.oinp}`).then((res) => {
+        console.log(res);
+      });
+    },
+getgedan(){
+this.uid = Number(localStorage.getItem("userid"))
+
+this.$http.get(`/api/user/playlist?uid=${this.uid}`).then((res) => {
+        console.log("rtrtr",res.data.playlist);
+        this.list=res.data.playlist
+      });
+
+  
+},
+
+    addgedan(){
+      console.log("1")
+ this.showw = true;
+    },
+    out(){
+      this.$http.get("/api/logout").then((res) => {
+        console.log(res)
+        localStorage.removeItem('userid')
+        localStorage.removeItem('img')
+        this.$router.push("../deng")
+        this.val="请登录"
+       
+      });
+    },
+    godeng(){
+      if(this.val.length<=3){
+         this.$router.push("./deng")
+      }
+     
+        
+    },
     showPopup() {
       this.show = true;
     },
@@ -101,7 +170,16 @@ export default {
       });
     },
   },
-  created() {},
+  created() {
+   
+    this.img=JSON.parse(localStorage.getItem("img"))
+    // let b=JSON.parse(localStorage.getItem("userid"))
+    if(JSON.parse(localStorage.getItem("userid"))){
+      this.val="辱耳脏眼版抑郁云"
+    }
+    this.getgedan()
+
+  },
   mounted() {},
   beforeCreate() {},
   beforeMount() {},
@@ -135,5 +213,14 @@ export default {
   border-radius: 30px;
   overflow: hidden;
   background: #e4e4e4;
+}
+ul li{
+  width: 100%;
+  height: 50px;
+  border: solid 1px black;
+  margin-bottom: 5px;
+  background-color: aquamarine;
+  text-align: center;
+  line-height: 50px;
 }
 </style>
