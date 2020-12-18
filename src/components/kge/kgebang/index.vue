@@ -101,6 +101,7 @@ export default {
   border-radius: 5px;
 }
 .main .li p {
+  padding-top: 10px;
   font-size: 15px;
   width: 100%;
   overflow: hidden;

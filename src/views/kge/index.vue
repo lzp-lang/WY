@@ -85,9 +85,9 @@ export default {
   font-size: 20px;
   line-height: 50px;
 }
-h2 {
+/* h2 {
   line-height: 0;
-}
+} */
 .nav {
   width: 90%;
   height: 100px;
@@ -114,6 +114,7 @@ h2 {
 }
 .right {
   float: left;
+  padding-top: 10px;
 }
 .icon {
   color: rgb(194, 42, 42);
